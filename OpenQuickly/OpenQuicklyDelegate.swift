@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-public protocol OpenQuicklyDelegate {
+public protocol OpenQuicklyDelegate: AnyObject {
 
   /// Called when an item in the matches list was selected
   ///

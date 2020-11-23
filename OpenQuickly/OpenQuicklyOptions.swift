@@ -6,65 +6,48 @@
 //  Copyright © 2019 Luka Kerr. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
-public class OpenQuicklyOptions {
+public struct OpenQuicklyOptions {
+    // MARK: - UI options
 
-  /// Setup sensible defaults
-  public init() {
-    self.radius = 7
-    self.width = 400
-    self.height = 44
-    self.rowHeight = 20
-    self.matchesShown = 6
-    self.material = .popover
-    self.placeholder = "Search"
-    self.persistMatches = false
-    self.persistPosition = true
-    self.font = NSFont.systemFont(ofSize: 20, weight: .light)
-    self.edgeInsets = NSEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-  }
+    /// The font to be used for the search field
+    public var font: NSFont = .systemFont(ofSize: 20, weight: .light)
 
-  // MARK: - UI options
+    /// The radius of the open quickly window
+    public var radius: CGFloat = 8
 
-  /// The font to be used for the search field
-  public var font: NSFont
+    /// The width of the open quickly window
+    public var width: CGFloat = 400
 
-  /// The radius of the open quickly window
-  public var radius: CGFloat
+    /// The height of the open quickly window
+    public var height: CGFloat = 44
 
-  /// The width of the open quickly window
-  public var width: CGFloat
+    /// The maximum number of matches shown
+    public var matchesShown: Int = 6
 
-  /// The height of the open quickly window
-  public var height: CGFloat
+    /// The height of each row in the matches list
+    public var rowHeight: CGFloat = 44
 
-  /// The maximum number of matches shown
-  public var matchesShown: Int
+    /// The placeholder text to be used for the search field
+    public var placeholder: String = "Search"
 
-  /// The height of each row in the matches list
-  public var rowHeight: CGFloat
+    /// Whether to persist the matches list when the
+    /// open quickly window is closed and re-opened
+    public var persistMatches: Bool = false
 
-  /// The placeholder text to be used for the search field
-  public var placeholder: String
+    /// Whether to persist the position of the open quickly
+    /// window when it is closed and re-opened
+    public var persistPosition: Bool = true
 
-  /// Whether to persist the matches list when the
-  /// open quickly window is closed and re-opened
-  public var persistMatches: Bool
+    /// The insets for the search field and matches list
+    public var edgeInsets: NSEdgeInsets = NSEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
 
-  /// Whether to persist the position of the open quickly
-  /// window when it is closed and re-opened
-  public var persistPosition: Bool
+    /// The material effect to be used for the open quickly window
+    public var material: NSVisualEffectView.Material = .popover
 
-  /// The insets for the search field and matches list
-  public var edgeInsets: NSEdgeInsets
+    // MARK: - Delegate
 
-  /// The material effect to be used for the open quickly window
-  public var material: NSVisualEffectView.Material
-
-  // MARK: - Delegate options
-
-  /// An instance that conforms to the OpenQuicklyDelegate
-  public var delegate: OpenQuicklyDelegate?
-
+    /// An instance that conforms to the OpenQuicklyDelegate
+    public weak var delegate: OpenQuicklyDelegate?
 }
