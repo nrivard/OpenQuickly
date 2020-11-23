@@ -32,6 +32,9 @@ class OpenQuicklyViewController: NSViewController {
     /// The currently selected match
     private var selected: Int?
 
+    /// the event monitor
+    private var eventMonitor: Any?
+
     /// Various views
     private var clipView: NSClipView!
     private var stackView: NSStackView!
@@ -87,8 +90,6 @@ class OpenQuicklyViewController: NSViewController {
         setupConstraints()
 
         matchesList.doubleAction = #selector(itemSelected)
-
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: keyDown)
     }
 
     override func viewWillAppear() {
@@ -98,7 +99,17 @@ class OpenQuicklyViewController: NSViewController {
             clearMatches()
         }
 
+        eventMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: keyDown)
         view.window?.makeFirstResponder(searchField)
+    }
+
+    override func viewDidDisappear() {
+        super.viewDidDisappear()
+
+        if let eventMonitor = eventMonitor {
+            NSEvent.removeMonitor(eventMonitor)
+            self.eventMonitor = nil
+        }
     }
 
     override var acceptsFirstResponder: Bool {
