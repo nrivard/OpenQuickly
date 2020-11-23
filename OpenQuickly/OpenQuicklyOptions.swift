@@ -9,6 +9,22 @@
 import Cocoa
 
 public struct OpenQuicklyOptions {
+
+    public init(font: NSFont = .systemFont(ofSize: 20, weight: .light), radius: CGFloat = 8, width: CGFloat = 400, height: CGFloat = 44, matchesShown: Int = 6, rowHeight: CGFloat = 44, placeholder: String = "Search", persistMatches: Bool = false, persistPosition: Bool = true, edgeInsets: NSEdgeInsets = NSEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0), material: NSVisualEffectView.Material = .popover, delegate: OpenQuicklyDelegate? = nil) {
+        self.font = font
+        self.radius = radius
+        self.width = width
+        self.height = height
+        self.matchesShown = matchesShown
+        self.rowHeight = rowHeight
+        self.placeholder = placeholder
+        self.persistMatches = persistMatches
+        self.persistPosition = persistPosition
+        self.edgeInsets = edgeInsets
+        self.material = material
+        self.delegate = delegate
+    }
+
     // MARK: - UI options
 
     /// The font to be used for the search field
@@ -50,4 +66,6 @@ public struct OpenQuicklyOptions {
 
     /// An instance that conforms to the OpenQuicklyDelegate
     public weak var delegate: OpenQuicklyDelegate?
+
+
 }
