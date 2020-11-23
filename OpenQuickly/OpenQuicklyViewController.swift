@@ -15,7 +15,7 @@ enum KeyCode {
     static let downArrow: UInt16 = 125
 }
 
-class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
+class OpenQuicklyViewController: NSViewController {
 
     /// KeyCodes that shouldn't update the searchField
     let IGNORED_KEYCODES = [
@@ -36,6 +36,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
     private var clipView: NSClipView!
     private var stackView: NSStackView!
     private var scrollView: NSScrollView!
+    private var searchFieldStack: NSStackView!
     private var searchField: NSTextField!
     private var matchesList: NSOutlineView!
     private var transparentView: NSVisualEffectView!
@@ -66,7 +67,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         view = NSView()
         view.frame = frame
         view.wantsLayer = true
-        view.layer?.cornerRadius = options.radius + 1
+        view.layer?.cornerRadius = options.radius
     }
 
     override func viewDidLoad() {
@@ -78,7 +79,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         setupScrollView()
         setupStackView()
 
-        stackView.addArrangedSubview(searchField)
+        stackView.addArrangedSubview(searchFieldStack)
         stackView.addArrangedSubview(scrollView)
         transparentView.addSubview(stackView)
         view.addSubview(transparentView)
@@ -91,9 +92,9 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
     }
 
     override func viewWillAppear() {
-        searchField.stringValue = ""
 
         if !options.persistMatches {
+            searchField.stringValue = ""
             clearMatches()
         }
 
@@ -214,15 +215,19 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
 
     private func setupSearchField() {
         searchField = NSTextField()
-        searchField.delegate = self
-        searchField.alignment = .left
         searchField.isEditable = true
         searchField.isBezeled = false
-        searchField.isSelectable = true
         searchField.font = options.font
         searchField.focusRingType = .none
         searchField.drawsBackground = false
         searchField.placeholderString = options.placeholder
+
+        searchFieldStack = NSStackView()
+        if let image = options.accessoryImage {
+            let imageView = NSImageView(image: image)
+            searchFieldStack.addArrangedSubview(imageView)
+        }
+        searchFieldStack.addArrangedSubview(searchField)
     }
 
     private func setupTransparentView() {
@@ -261,6 +266,7 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
         scrollView.autohidesScrollers = true
         scrollView.hasVerticalScroller = true
         scrollView.documentView = matchesList
+        scrollView.automaticallyAdjustsContentInsets = false
         scrollView.translatesAutoresizingMaskIntoConstraints = true
     }
 
@@ -275,6 +281,9 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
 
     private func setupConstraints() {
         let stackViewConstraints = [
+            // this prevents the stack from growing vertically after entering text
+            searchFieldStack.heightAnchor.constraint(equalTo: searchField.heightAnchor),
+
             stackView.topAnchor.constraint(equalTo: transparentView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: transparentView.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: transparentView.leadingAnchor),
@@ -283,7 +292,6 @@ class OpenQuicklyViewController: NSViewController, NSTextFieldDelegate {
 
         NSLayoutConstraint.activate(stackViewConstraints)
     }
-
 }
 
 extension OpenQuicklyViewController: NSOutlineViewDataSource {

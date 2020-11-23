@@ -16,7 +16,7 @@ class OpenQuicklyWindow: NSWindow, NSWindowDelegate {
         backing backingStoreType: NSWindow.BackingStoreType,
         defer flag: Bool
     ) {
-        super.init(contentRect: contentRect, styleMask: .borderless, backing: backingStoreType, defer: flag)
+        super.init(contentRect: contentRect, styleMask: [.borderless, .fullSizeContentView], backing: backingStoreType, defer: flag)
         
         self.titleVisibility = .hidden
         self.backgroundColor = .clear

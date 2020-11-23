@@ -65,12 +65,17 @@ class ViewController: NSViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let openQuicklyOptions = OpenQuicklyOptions()
+    var openQuicklyOptions = OpenQuicklyOptions()
     openQuicklyOptions.width = 500
     openQuicklyOptions.rowHeight = 50
     openQuicklyOptions.delegate = self
     openQuicklyOptions.persistPosition = true
     openQuicklyOptions.placeholder = "Search for a language"
+
+    if #available(macOS 11.0, *) {
+        openQuicklyOptions.accessoryImage = NSImage(systemSymbolName: "magnifyingglass", accessibilityDescription: nil)?
+            .withSymbolConfiguration(.init(pointSize: openQuicklyOptions.font.pointSize, weight: .medium))
+    }
 
     self.openQuicklyWindowController = OpenQuicklyWindowController(options: openQuicklyOptions)
 

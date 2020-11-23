@@ -10,8 +10,9 @@ import Cocoa
 
 public struct OpenQuicklyOptions {
 
-    public init(font: NSFont = .systemFont(ofSize: 20, weight: .light), radius: CGFloat = 8, width: CGFloat = 400, height: CGFloat = 44, matchesShown: Int = 6, rowHeight: CGFloat = 44, placeholder: String = "Search", persistMatches: Bool = false, persistPosition: Bool = true, edgeInsets: NSEdgeInsets = NSEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0), material: NSVisualEffectView.Material = .popover, delegate: OpenQuicklyDelegate? = nil) {
+    public init(font: NSFont = .systemFont(ofSize: 20, weight: .light), accessoryImage: NSImage? = nil, radius: CGFloat = 8, width: CGFloat = 400, height: CGFloat = 44, matchesShown: Int = 6, rowHeight: CGFloat = 44, placeholder: String = "Search", persistMatches: Bool = false, persistPosition: Bool = true, edgeInsets: NSEdgeInsets = NSEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0), material: NSVisualEffectView.Material = .popover, delegate: OpenQuicklyDelegate? = nil) {
         self.font = font
+        self.accessoryImage = accessoryImage
         self.radius = radius
         self.width = width
         self.height = height
@@ -29,6 +30,9 @@ public struct OpenQuicklyOptions {
 
     /// The font to be used for the search field
     public var font: NSFont = .systemFont(ofSize: 20, weight: .light)
+
+    /// an accessory image that precedes the search field, like the magnifying glass
+    public var accessoryImage: NSImage? = nil
 
     /// The radius of the open quickly window
     public var radius: CGFloat = 8
@@ -66,6 +70,4 @@ public struct OpenQuicklyOptions {
 
     /// An instance that conforms to the OpenQuicklyDelegate
     public weak var delegate: OpenQuicklyDelegate?
-
-
 }
